@@ -32,7 +32,6 @@ public class EnemiesManager {
 		}
 		Enemy enemy = enemies.get(0);
 		if(enemy.isOutOfScreen()) {
-			mainCharacter.upScore();
 			enemies.clear();
 			enemies.add(createEnemy());
 		}

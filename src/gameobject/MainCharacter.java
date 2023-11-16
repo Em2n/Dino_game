@@ -28,8 +28,9 @@ public class MainCharacter {
 	private float speedY;
 	private Rectangle rectBound;
 	
+	public int scoreMax = 0;
 	public int score = 0;
-	
+	private int cntScore = 0;
 	private int state = NORMAL_RUN;
 	
 	private Animation normalRunAnim;
@@ -103,12 +104,17 @@ public class MainCharacter {
 			speedY += GRAVITY;
 			posY += speedY;
 		}
+		cntScore++;
+		if(cntScore >= 5){
+			upScore();
+			cntScore = 0;
+		}
 	}
 	
 	public void jump() {
 		if(posY >= LAND_POSY) {
 			if(jumpSound != null) {
-				jumpSound.play();
+				//jumpSound.play();
 			}
 			speedY = -7.5f;
 			posY += speedY;
@@ -153,16 +159,19 @@ public class MainCharacter {
 	
 	public void reset() {
 		posY = LAND_POSY;
+		if(score > scoreMax)
+			scoreMax = score;
+		score = 0;
 	}
 	
 	public void playDeadSound() {
-		deadSound.play();
+		//deadSound.play();
 	}
 	
 	public void upScore() {
-		score += 20;
+		score += 1;
 		if(score % 100 == 0) {
-			scoreUpSound.play();
+			//scoreUpSound.play();
 		}
 	}
 	

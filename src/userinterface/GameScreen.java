@@ -69,15 +69,19 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 		switch (gameState) {
 		case START_GAME_STATE:
 			mainCharacter.draw(g);
+
 			break;
 		case GAME_PLAYING_STATE:
+
 		case GAME_OVER_STATE:
 			clouds.draw(g);
 			land.draw(g);
 			enemiesManager.draw(g);
 			mainCharacter.draw(g);
 			g.setColor(Color.BLACK);
-			g.drawString("HI " + mainCharacter.score, 500, 20);
+			g.drawString(""+mainCharacter.score, 550, 20);
+			if(mainCharacter.scoreMax != 0)
+				g.drawString("HI " + mainCharacter.scoreMax, 500, 20);
 			if (gameState == GAME_OVER_STATE) {
 				g.drawImage(gameOverButtonImage, 200, 30, null);
 				g.drawImage(replayButtonImage, 283, 50, null);
