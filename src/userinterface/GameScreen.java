@@ -1,7 +1,7 @@
 package userinterface;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -32,6 +32,8 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 
 	private BufferedImage replayButtonImage;
 	private BufferedImage gameOverButtonImage;
+
+	private boolean textCheck;
 
 	public GameScreen() {
 		mainCharacter = new MainCharacter();
@@ -65,11 +67,10 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 	public void paint(Graphics g) {
 		g.setColor(Color.decode("#f7f7f7"));
 		g.fillRect(0, 0, getWidth(), getHeight());
-
+		Font font = new Font("Press Start 2P", Font.PLAIN, 8);
 		switch (gameState) {
 		case START_GAME_STATE:
 			mainCharacter.draw(g);
-
 			break;
 		case GAME_PLAYING_STATE:
 
@@ -79,9 +80,11 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 			enemiesManager.draw(g);
 			mainCharacter.draw(g);
 			g.setColor(Color.BLACK);
-			g.drawString(""+mainCharacter.score, 550, 20);
+			g.setFont(font);
+			if(!textCheck)
+				g.drawString(String.format("%04d",mainCharacter.score), 540, 20);
 			if(mainCharacter.scoreMax != 0)
-				g.drawString("HI " + mainCharacter.scoreMax, 500, 20);
+				g.drawString("HI " + String.format("%04d",mainCharacter.scoreMax), 480, 20);
 			if (gameState == GAME_OVER_STATE) {
 				g.drawImage(gameOverButtonImage, 200, 30, null);
 				g.drawImage(replayButtonImage, 283, 50, null);
@@ -136,14 +139,14 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 				}
 				break;
 			case GAME_PLAYING_STATE:
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 					mainCharacter.jump();
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					mainCharacter.down(true);
 				}
 				break;
 			case GAME_OVER_STATE:
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP) {
 					gameState = GAME_PLAYING_STATE;
 					resetGame();
 				}
@@ -152,6 +155,7 @@ public class GameScreen extends JPanel implements Runnable, KeyListener {
 			}
 		}
 	}
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {

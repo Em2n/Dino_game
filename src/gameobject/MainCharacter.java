@@ -68,7 +68,7 @@ public class MainCharacter {
 		return speedX;
 	}
 
-	public void setSpeedX(int speedX) {
+	public void setSpeedX(float speedX) {
 		this.speedX = speedX;
 	}
 	
@@ -114,7 +114,7 @@ public class MainCharacter {
 	public void jump() {
 		if(posY >= LAND_POSY) {
 			if(jumpSound != null) {
-				//jumpSound.play();
+				jumpSound.play();
 			}
 			speedY = -7.5f;
 			posY += speedY;
@@ -162,16 +162,19 @@ public class MainCharacter {
 		if(score > scoreMax)
 			scoreMax = score;
 		score = 0;
+		setSpeedX(4);
 	}
 	
 	public void playDeadSound() {
-		//deadSound.play();
+		deadSound.play();
 	}
 	
 	public void upScore() {
-		score += 1;
+		score += getSpeedX()/4;
+
 		if(score % 100 == 0) {
-			//scoreUpSound.play();
+			scoreUpSound.play();
+			setSpeedX(getSpeedX()+1);
 		}
 	}
 	
